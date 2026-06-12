@@ -56,6 +56,13 @@ pipeline {
         }
 
         stage('Deploy Staging') {
+            agent {
+                dockerfile {
+                    filename 'agent/Dockerfile.ansible'
+                    args '-u root'
+                    reuseNode true
+                }
+            }
             steps {
                 sshagent(credentials: ['aws-deploy-key']) {
                     sh '''
@@ -83,6 +90,14 @@ pipeline {
         }
 
         stage('Deploy Prod') {
+            agent {
+                dockerfile {
+                    filename 'agent/Dockerfile.ansible'
+                    args '-u root'
+                    reuseNode true
+                }
+            }
+            
             steps {
                 sshagent(credentials: ['aws-deploy-key']) {
                     sh '''
