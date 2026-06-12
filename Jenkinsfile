@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USERNAME = 'harrod'
+        DOCKERHUB_USERNAME = 'harrod1'
         BACKEND_IMAGE = "${DOCKERHUB_USERNAME}/mini-cicd-backend:latest"
         FRONTEND_IMAGE = "${DOCKERHUB_USERNAME}/mini-cicd-frontend:latest"
     }
