@@ -1,0 +1,35 @@
+- name: Deploy mini CI/CD application
+  hosts: "{{ target }}"
+  become: true
+
+  tasks:
+    - name: Create application directory
+      file:
+        path: /opt/mini-cicd-app
+        state: directory
+        mode: '0755'
+
+    - name: Copy docker-compose.yml
+      copy:
+        src: ../deploy/docker-compose.yml
+        dest: /opt/mini-cicd-app/docker-compose.yml
+        mode: '0644'
+
+    - name: Pull latest Docker images
+      command: docker compose pull
+      args:
+        chdir: /opt/mini-cicd-app
+
+    - name: Restart application containers
+      command: docker compose up -d
+      args:
+        chdir: /opt/mini-cicd-app
+
+    - name: Check running containers
+      command: docker ps
+      register: docker_ps_result
+
+    - name: Display running containers
+      debug:
+        var: docker_ps_result.stdout
+
