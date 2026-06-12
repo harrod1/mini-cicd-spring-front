@@ -1,12 +1,12 @@
 services:
   backend:
-    image: mini-cicd-backend:local
+    image: harrod1/mini-cicd-backend:local
     container_name: mini-cicd-backend
     ports:
       - "8080:8080"
 
   frontend:
-    image: mini-cicd-frontend:local
+    image: harrod1/mini-cicd-frontend:local
     container_name: mini-cicd-frontend
     ports:
       - "80:80"
