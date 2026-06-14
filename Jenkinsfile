@@ -49,8 +49,7 @@ pipeline {
                         docker push ${BACKEND_IMAGE}
                         docker push ${FRONTEND_IMAGE}
                     '''
-                }
-            }
+           }
         }
 
         stage('Deploy Staging') {
@@ -65,7 +64,7 @@ pipeline {
                 sshagent(credentials: ['SSH_AUTH_SERVER']) {
                     sh '''
                          mkdir -p ~/.ssh
-                         ssh-keyscan -H IP_STAGING >> ~/.ssh/known_hosts
+                         ssh-keyscan -H "$STAGING_HOST" >> ~/.ssh/known_hosts
                          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
                           -i ansible/hosts.yml \
                           ansible/deploy.yml \
@@ -102,7 +101,7 @@ pipeline {
                 sshagent(credentials: ['SSH_AUTH_SERVER']) {
                     sh '''
                         mkdir -p ~/.ssh
-                        ssh-keyscan -H IP_STAGING >> ~/.ssh/known_hosts
+                        ssh-keyscan -H "$PROD_HOST" >> ~/.ssh/known_hosts
                         ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
                           -i ansible/hosts.yml \
                           ansible/deploy.yml \
