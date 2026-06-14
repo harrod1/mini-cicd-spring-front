@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_USERNAME = 'harrod1'
+        DOCKERHUB_AUTH = credentials('DockerHubCredentials')
+        SSH_AUTH_SERVER = credentials('SSH_AUTH_SERVER')
         BACKEND_IMAGE = "${DOCKERHUB_USERNAME}/mini-cicd-backend:latest"
         FRONTEND_IMAGE = "${DOCKERHUB_USERNAME}/mini-cicd-frontend:latest"
     }
@@ -64,9 +65,11 @@ pipeline {
                 }
             }
             steps {
-                sshagent(credentials: ['aws-deploy-key']) {
+                sshagent(credentials: ['SSH_AUTH_SERVER']) {
                     sh '''
-                        ansible-playbook \
+                         mkdir -p ~/.ssh
+                         ssh-keyscan -H IP_STAGING >> ~/.ssh/known_hosts
+                         ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
                           -i ansible/hosts.yml \
                           ansible/deploy.yml \
                           --extra-vars "target=staging"
@@ -99,9 +102,11 @@ pipeline {
             }
             
             steps {
-                sshagent(credentials: ['aws-deploy-key']) {
+                sshagent(credentials: ['SSH_AUTH_SERVER']) {
                     sh '''
-                        ansible-playbook \
+                        mkdir -p ~/.ssh
+                        ssh-keyscan -H IP_STAGING >> ~/.ssh/known_hosts
+                        ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
                           -i ansible/hosts.yml \
                           ansible/deploy.yml \
                           --extra-vars "target=prod"
