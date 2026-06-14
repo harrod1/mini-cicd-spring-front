@@ -4,8 +4,8 @@ pipeline {
     environment {
         DOCKERHUB_AUTH = credentials('DockerHubCredentials')
         SSH_AUTH_SERVER = credentials('SSH_AUTH_SERVER')
-        BACKEND_IMAGE = "${DOCKERHUB_USERNAME}/mini-cicd-backend:latest"
-        FRONTEND_IMAGE = "${DOCKERHUB_USERNAME}/mini-cicd-frontend:latest"
+        BACKEND_IMAGE = "${DOCKERHUB_AUTH}/mini-cicd-backend:latest"
+        FRONTEND_IMAGE = "${DOCKERHUB_AUTH}/mini-cicd-frontend:latest"
     }
 
     stages {
@@ -48,7 +48,7 @@ pipeline {
                     passwordVariable: 'DOCKERHUB_PASS'
                 )]) {
                     sh '''
-                        echo "$DOCKERHUB_PASS" | docker login -u "$DOCKERHUB_USER" --password-stdin
+                        echo "$DOCKERHUB_AUTH_PSW" | docker login -u "$DOCKERHUB_AUTH_USR" --password-stdin
                         docker push ${BACKEND_IMAGE}
                         docker push ${FRONTEND_IMAGE}
                     '''
