@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKERHUB_AUTH = credentials('DockerHubCredentials')
-        STAGING_HOST = ''
+        STAGING_HOST = '54.234.80.235'
         PROD_HOST = '100.52.252.225'
 
         BACKEND_IMAGE = "${DOCKERHUB_AUTH}/mini-cicd-backend:latest"
