@@ -6,8 +6,8 @@ pipeline {
         STAGING_HOST = '54.234.80.235'
         PROD_HOST = '100.52.252.225'
 
-        BACKEND_IMAGE = "${DOCKERHUB_AUTH}/mini-cicd-backend:latest"
-        FRONTEND_IMAGE = "${DOCKERHUB_AUTH}/mini-cicd-frontend:latest"
+        BACKEND_IMAGE = "${DOCKERHUB_AUTH_USR}/mini-cicd-backend:latest"
+        FRONTEND_IMAGE = "${DOCKERHUB_AUTH_USR}/mini-cicd-frontend:latest"
     }
 
     stages {
