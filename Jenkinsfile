@@ -47,7 +47,7 @@ pipeline {
                     sh '''
                         echo "$DOCKERHUB_AUTH_PSW" | docker login -u "$DOCKERHUB_AUTH_USR" --password-stdin
                         docker push "$DOCKERHUB_AUTH_USR/$FRONTEND_IMAGE"
-                        docker push "$DOCKERHUB_AUTH_USR/$FRONTEND_IMAGE"
+                        docker push "$DOCKERHUB_AUTH_USR/$BACKEND_IMAGE"
                     '''
            }
         }
