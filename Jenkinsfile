@@ -6,8 +6,8 @@ pipeline {
         STAGING_HOST = '54.234.80.235'
         PROD_HOST = '100.52.252.225'
 
-        BACKEND_IMAGE = "${DOCKERHUB_AUTH_USR}/mini-cicd-backend:latest"
-        FRONTEND_IMAGE = "${DOCKERHUB_AUTH_USR}/mini-cicd-frontend:latest"
+        BACKEND_IMAGE = 'mini-cicd-backend:latest'
+        FRONTEND_IMAGE = 'mini-cicd-frontend:latest'
     }
 
     stages {
@@ -36,8 +36,8 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 sh '''
-                    docker build -t ${BACKEND_IMAGE} ./backend
-                    docker build -t ${FRONTEND_IMAGE} ./frontend
+                    docker build -t "$DOCKERHUB_AUTH_USR/$BACKEND_IMAGE" ./backend
+                    docker build -t "$DOCKERHUB_AUTH_USR/$FRONTEND_IMAGE" ./frontend
                 '''
             }
         }
@@ -46,8 +46,8 @@ pipeline {
             steps {
                     sh '''
                         echo "$DOCKERHUB_AUTH_PSW" | docker login -u "$DOCKERHUB_AUTH_USR" --password-stdin
-                        docker push "${BACKEND_IMAGE}"
-                        docker push "${FRONTEND_IMAGE}"
+                        docker push "$DOCKERHUB_AUTH_USR/$FRONTEND_IMAGE"
+                        docker push "$DOCKERHUB_AUTH_USR/$FRONTEND_IMAGE"
                     '''
            }
         }
