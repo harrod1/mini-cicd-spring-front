@@ -15,19 +15,19 @@
         dest: /opt/mini-cicd-app/docker-compose.yml
         mode: '0644'
 
-    - name: Install Docker Compose plugin
-      apt:
-        name: docker-compose
-        state: present
-        update_cache: true
+    - name: Install Docker Compose standalone
+      get_url:
+        url: https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-x86_64
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
 
     - name: Pull latest Docker images
-      command: docker-compose pull
+      command: /usr/local/bin/docker-compose pull
       args:
         chdir: /opt/mini-cicd-app
 
     - name: Restart application containers
-      command: docker-compose up -d
+      command: /usr/local/bin/docker-compose up -d
       args:
         chdir: /opt/mini-cicd-app
 
