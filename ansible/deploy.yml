@@ -17,17 +17,17 @@
 
     - name: Install Docker Compose plugin
       apt:
-        name: docker-compose-plugin
+        name: docker-compose
         state: present
         update_cache: true
 
     - name: Pull latest Docker images
-      command: docker compose pull
+      command: docker-compose pull
       args:
         chdir: /opt/mini-cicd-app
 
     - name: Restart application containers
-      command: docker compose up -d
+      command: docker-compose up -d
       args:
         chdir: /opt/mini-cicd-app
 
