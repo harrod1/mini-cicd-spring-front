@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mini-cicd-backend-service
+  namespace: mini-cicd
+spec:
+  type: ClusterIP
+  selector:
+    app: mini-cicd-backend
+  ports:
+    - port: 8080
+      targetport: 8080
+
